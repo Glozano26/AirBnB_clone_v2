@@ -113,3 +113,43 @@ class TestFileStorage(unittest.TestCase):
         with open("file.json", "r") as f:
             js = f.read()
         self.assertEqual(json.loads(string), json.loads(js))
+    
+    class TestFileStorageMethods(unittest.TestCase):
+        """Test Improve storage"""
+        def setUp(self):
+            self.storage = FileStorage()
+
+        def tearDown(self):
+            self.storage = None
+
+        def test_get_with_existing_object(self):
+            state_obj = State()
+            state_obj.id = "123"
+            self.storage.new(state_obj)
+            retrieved_obj = self.storage.get(State, "123")
+            self.assertEqual(retrieved_obj, state_obj)
+
+        def test_get_with_non_existing_object(self):
+            retrieved_obj = self.storage.get(State, "123")
+            self.assertIsNone(retrieved_obj)
+
+        def test_count_with_existing_objects(self):
+            state_obj = State()
+            self.storage.new(state_obj)
+            city_obj = City()
+            self.storage.new(city_obj)
+            self.assertEqual(self.storage.count(), 2)
+
+        def test_count_with_specific_class(self):
+            state_obj = State()
+            self.storage.new(state_obj)
+            city_obj = City()
+            self.storage.new(city_obj)
+            self.assertEqual(self.storage.count(State), 1)
+            self.assertEqual(self.storage.count(City), 1)
+            self.assertEqual(self.storage.count(State), 1)  # Contando nuevamente State para verificar que no cambie
+
+        def test_count_with_non_existing_class(self):
+            self.assertEqual(self.storage.count(), 0)
+            self.assertEqual(self.storage.count(object), 0)
+
