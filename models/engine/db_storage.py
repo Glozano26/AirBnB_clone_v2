@@ -24,6 +24,7 @@ class DBStorage:
     """interaacts with the MySQL database"""
     __engine = None
     __session = None
+    # count = 0
 
     def __init__(self):
         """Instantiate a DBStorage object"""
@@ -39,6 +40,8 @@ class DBStorage:
                                              HBNB_MYSQL_DB))
         if HBNB_ENV == "test":
             Base.metadata.drop_all(self.__engine)
+        
+        # DBStorage.count += 1
 
     def all(self, cls=None):
         """query on the current database session"""
@@ -74,3 +77,16 @@ class DBStorage:
     def close(self):
         """call remove() method on the private session attribute"""
         self.__session.remove()
+
+    def get(self, cls, id):
+        """A method to retrieve one object"""
+        all_objs = self.all(cls)
+        for obj in all_objs.values():
+            if obj.id == id and isinstance(obj, cls):
+                return obj                
+        else:
+            return None
+    
+    def count(self, cls=None):
+        """method to count the number of objects in storage"""
+        return len(self.all(cls))
