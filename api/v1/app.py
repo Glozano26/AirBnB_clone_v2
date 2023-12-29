@@ -9,6 +9,7 @@ app = Flask(__name__)
 
 app.register_blueprint(app_views)
 
+
 @app.teardown_appcontext
 def clean_up_all(exc):
     """Cleaning function to be executed at
@@ -18,4 +19,3 @@ def clean_up_all(exc):
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port='5000')
-
