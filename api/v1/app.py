@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """Contains entrypoint"""
-from flask import Flask
+from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
 
@@ -18,4 +18,4 @@ def clean_up_all(exc):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port='5000')
+    app.run(host='0.0.0.0', port='5000', threaded=True)
