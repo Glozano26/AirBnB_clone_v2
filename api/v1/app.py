@@ -16,6 +16,13 @@ def clean_up_all(exc):
     end application context"""
     storage.close()
 
+@app.errorhandler(404)
+def error(e):
+    """Return messagge Not found"""
+    dict_response = {"error": "Not found"}
+    dict_response.status_code = 404
+    return jsonify(dict_response)
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port='5000', threaded=True)
