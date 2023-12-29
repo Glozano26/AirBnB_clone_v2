@@ -21,3 +21,7 @@ def counts():
     """Create an endpoint that retrieves the number of each objects by type"""
     dat_endp = storage.count()
     return jsonify(dat_endp)
+
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=5000, threaded=True)
