@@ -20,15 +20,15 @@ def status():
     return jsonify(data)
 
 
-@app_views.route('/stats')
+@app_views.route('/api/v1/stats')
 def counts():
     """Create an endpoint that retrieves the number of each objects by type"""
     num_objs = {
         "amenities": storage.count("Amenity"),
-        "cities": storage.count("Cities"),
+        "cities": storage.count("City"),
         "places": storage.count("Places"),
-        "reviews": storage.count("Reviews"),
-        "states": storage.count("States"),
-        "users": storage.count("Users")
+        "reviews": storage.count("Review"),
+        "states": storage.count("State"),
+        "users": storage.count("User")
     }
     return jsonify(num_objs)
