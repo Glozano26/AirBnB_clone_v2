@@ -14,7 +14,7 @@ def get_all_states():
     states = [state.to_dict() for state in all_states.values()]
     return jsonify(states)
 
-@app_views.route('/states/<state_id>', methods=['GET'])
+@app_views.route('states/<state_id>', methods=['GET'])
 def get_state(state_id):
     """Retrieves a State object by state_id"""
     try:
@@ -22,14 +22,14 @@ def get_state(state_id):
     except Exception:
         abort(404)
 
-@app_views.route('/states/<state_id>', methods=['DELETE'])
+@app_views.route('states/<state_id>', methods=['DELETE'])
 def delete_states(state_id):
     """function that removes a State object if it is not linked
     or scrambles an empty dictionary"""
     state = storage.get(State, state_id)
     if state is None:
         return jsonify({'error': 'Not found'}), 404
-    state.delete(state)
+    state.delete()
     storage.save()
     return jsonify({}), 200
 
@@ -50,7 +50,7 @@ def create_state():
     return jsonify(new_state.to_dict()), 201
 
 
-@app_views.route('/states/<state_id>', methods=['PUT'])
+@app_views.route('states/<state_id>', methods=['PUT'])
 def update_state_data(state_id):
     state = storage.get(State, state_id)
     if state is None:
