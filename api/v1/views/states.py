@@ -10,20 +10,18 @@ from models import storage
 @app_views.route('/states', methods=['GET'])
 def get_all_states():
     """Retrieves all State objects"""
-    all_states = State.all()
-    states = [state.to_dict() for state in all_states]
+    all_states = storage.all()
+    states = [state.to_dict() for state in all_states.values()]
     return jsonify(states)
 
 
 @app_views.route('/states/<state_id>', methods=['GET'])
 def get_state(state_id):
     """Retrieves a State object by state_id"""
-    state = storage.get(State, state_id)
-    # state = [state for state in states if state['id'] == state_id]
-    if state is None:
+    try:
+        return jsonify(storage.get(State, state_id).to_dict())
+    except Exception:
         abort(404)
-    return jsonify(state.to_dict())
-
 
 @app_views.route('/states/<state_id>', methods=['DELETE'])
 def delete_states(state_id):
