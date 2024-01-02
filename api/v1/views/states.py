@@ -9,22 +9,21 @@ from models import storage
 
 @app_views.route('/states', methods=['GET'])
 def get_all_states():
-    all_states = storage.all(State)
-    # states_list = []
-    # for state in all_states.values():
-    #     states_list.append(state.to_dict())
-    states_list = [state.to_dict() for state in all_states.values()]
-    return jsonify(states_list)
+    """Retrieves all State objects"""
+    all_states = State.all()
+    states = [state.to_dict() for state in all_states]
+    return jsonify(states)
 
 
 @app_views.route('/states/<state_id>', methods=['GET'])
 def get_state(state_id):
     """Retrieves a State object by state_id"""
-    state = State.query.filter_by(id=state_id).first()
+    state = storage.get(State, state_id)
     # state = [state for state in states if state['id'] == state_id]
     if state is None:
         abort(404)
-    return jsonify(state.serialize())
+    return jsonify(state.to_dict())
+
 
 @app_views.route('/states/<state_id>', methods=['DELETE'])
 def delete_states(state_id):
@@ -67,4 +66,3 @@ def update_state_data(state_id):
         storage.save()
         return jsonify(state.to_dict()), 200
     return jsonify({'error': 'Not a JSON'}), 400
-
