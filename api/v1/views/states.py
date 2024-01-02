@@ -37,11 +37,11 @@ def delete_states(state_id):
 def create_state():
     """transforms HTTP request body into a dictionary"""
     if not request.is_json:
-        abort(400, {'error': 'Not a JSON'})
+        abort(400, 'Not a JSON')
 
     data = request.get_json()
-    if 'name' not in data:
-        abort(400, {'error': 'Missing name'})
+    if 'name' not in data.keys():
+        abort(400, 'Missing name')
 
     new_state = State(**data)
     storage.new(new_state)
