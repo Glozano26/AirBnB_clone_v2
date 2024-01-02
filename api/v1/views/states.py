@@ -10,7 +10,7 @@ from models import storage
 @app_views.route('/states', methods=['GET'])
 def get_all_states():
     """Retrieves all State objects"""
-    all_states = storage.all()
+    all_states = storage.all(State)
     states = [state.to_dict() for state in all_states.values()]
     return jsonify(states)
 
@@ -29,7 +29,6 @@ def delete_states(state_id):
     state = storage.get(State, state_id)
     if state is None:
         return jsonify({'error': 'Not found'}), 404
-
     state.delete(state)
     storage.save()
     return jsonify({}), 200
