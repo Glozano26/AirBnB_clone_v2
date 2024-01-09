@@ -20,7 +20,7 @@ def get_all_cities(state_id):
     return jsonify(cities)
 
 
-@app_views.route('cities/<city_id>', methods=['GET'])
+@app_views.route('/cities/<city_id>', methods=['GET'])
 def get_cities(city_id):
     """Retrieves a City object"""
     try:
@@ -52,10 +52,10 @@ def create_city(state_id):
         data_HTTP = request.get_json()
         if 'name' in data_HTTP:
             data_HTTP['state_id'] = state_id
-            new_Cities = City(**data_HTTP)
-            storage.new(new_Cities)
-            new_Cities.save()
-            return jsonify(new_Cities.to_dict()), 201
+            new_city = City(**data_HTTP)
+            storage.new(new_city)
+            storage.save()
+            return jsonify(new_city.to_dict()), 201
         abort(400, 'Missing name')
     abort(400, 'Not a JSON')    
 
