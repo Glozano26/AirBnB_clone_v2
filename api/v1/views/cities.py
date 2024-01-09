@@ -46,14 +46,14 @@ def create_city(state_id):
     """Creates a City"""
     state = storage.get(State, state_id)
     if state is None:
-        return jsonify({'error': 'Not found'}), 404
+        return {'error': 'Not found'}, 404
 
     if not request.is_json:
-        return jsonify({'error': 'Not a JSON'}), 400
+        return {'error': 'Not a JSON'}, 400
 
     data_HTTP = request.get_json()
     if 'name' not in data_HTTP:
-        return jsonify({'error': 'Missing name'}), 400
+        return {'error': 'Missing name'}, 400
 
     data_HTTP['state_id'] = state_id
     new_Cities = City(**data_HTTP)
