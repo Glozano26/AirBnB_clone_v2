@@ -46,12 +46,13 @@ def create_city(state_id):
     """Creates a City"""
     state = storage.get(State, state_id)
     if state is None:
-        return {'error': 'Not found'}, 404
-
-    if not request.is_json:
-        return {'error': 'Not a JSON'}, 400
+        abort(404)
 
     data_HTTP = request.get_json()
+
+    if data_HTTP is None:
+        return {'error': 'Not a JSON'}, 400
+    
     if 'name' not in data_HTTP:
         return {'error': 'Missing name'}, 400
 
