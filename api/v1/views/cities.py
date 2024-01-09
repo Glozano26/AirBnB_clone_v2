@@ -48,17 +48,18 @@ def create_city(state_id):
     if state is None:
         abort(404)
 
-    if not request.is_json:
-        return {'error': 'Not a JSON'}, 400
-
     data_HTTP = request.get_json()
+
+    if data_HTTP is None:
+        abort(400, 'Not a JSON')
     if 'name' not in data_HTTP:
-        return {'error': 'Missing name'}, 400
+        abort(400, 'Missing name')
 
     data_HTTP['state_id'] = state_id
     new_Cities = City(**data_HTTP)
     storage.new(new_Cities)
-    storage.save()
+    new_Cities.save()
+
     return jsonify(new_Cities.to_dict()), 201
 
 
