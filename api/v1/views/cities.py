@@ -14,10 +14,10 @@ def get_all_cities(state_id):
     state = storage.get(State, state_id)
     if state is None:
         abort(404)
-    all_cities = City.query.all()
-    list_cities = [city.serialize() for city in all_cities]
-    return jsonify(list_cities)
-
+    cities = []
+    for value in state.cities:
+        cities.append(value.to_dict())
+    return jsonify(cities)
 
 @app_views.route('cities/<city_id>', methods=['GET'])
 def get_cities(city_id):
@@ -61,19 +61,19 @@ def create_city(state_id):
 
 @app_views.route('/cities/<city_id>', methods=['PUT'])
 def update_city(city_id):
-    """"""
+    """Updates a City object"""
     city = storage.get(City, city_id)
     if city is None:
-        return jsonify({'error': 'Not found'}), 404
-    if not request.is_json:
-        return jsonify({'error': 'Not a JSON'}), 400
+        abort(404)
 
     cities_HTTP = request.get_json()
-    keys_ignored = {'id', 'state_id', 'created_at', 'updated_at'}
 
+    if cities_HTTP is None:
+        return jsonify({'error': 'Not a JSON'}), 400
+
+    keys_ignored = ['id', 'state_id', 'created_at', 'updated_at']
     for key, value in cities_HTTP.items():
         if key not in keys_ignored:
             setattr(city, key, value)
-
     city.save()
     return jsonify(city.to_dict()), 200
