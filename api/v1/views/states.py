@@ -19,7 +19,9 @@ def get_all_states():
 def get_state(state_id):
     """Retrieves a State object by state_id"""
     try:
-        return jsonify(storage.get(State, state_id).to_dict())
+        state = storage.get(State, state_id)
+        if state is None:
+            return jsonify(state.to_dict())
     except Exception:
         abort(404)
 
