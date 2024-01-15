@@ -18,13 +18,16 @@ def get_all_states():
 @app_views.route('/states/<state_id>', methods=['GET'])
 def get_state(state_id):
     """Retrieves a State object by state_id"""
-    try:
-        state = storage.get(State, state_id)
-        if state is None:
-            return jsonify(state.to_dict())
-    except Exception:
+    # try:
+    #     state = storage.get(State, state_id)
+    #     if state is None:
+    #         return jsonify(state.to_dict())
+    # except Exception:
+    #     return jsonify({'error': 'Not found'}), 404
+    state = storage.get(State, state_id)
+    if state is None:
         return jsonify({'error': 'Not found'}), 404
-
+    return jsonify(state.to_dict())
 
 @app_views.route('/states/<state_id>', methods=['DELETE'])
 def delete_states(state_id):
