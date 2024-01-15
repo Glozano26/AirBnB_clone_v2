@@ -23,7 +23,7 @@ def get_state(state_id):
         if state is None:
             return jsonify(state.to_dict())
     except Exception:
-        abort(404)
+        return jsonify({'error': 'Not found'}), 404
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'])
