@@ -23,6 +23,7 @@ def get_state(state_id):
     except Exception:
         abort(404)
 
+
 @app_views.route('/states/<state_id>', methods=['DELETE'])
 def delete_states(state_id):
     """function that removes a State object if it is not linked
