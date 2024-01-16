@@ -17,8 +17,8 @@ def get_all_amenities():
     return jsonify(list_amenity)
 
 
-@app_views.route('/amenities/<amenity_id>', methods=['GET'])
-def get_amenity(amenity_id):
-    """Retrieves a Amenity object"""
-    try:
-        return jsonify(storage.get(Amenity, amenity_id).to_dict())
+# @app_views.route('/amenities/<amenity_id>', methods=['GET'])
+# def get_amenity(amenity_id):
+#     """Retrieves a Amenity object"""
+#     try:
+#         return jsonify(storage.get(Amenity, amenity_id).to_dict())
