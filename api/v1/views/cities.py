@@ -68,11 +68,12 @@ def update_city(city_id):
     if city is None:
         return {'error': 'Not found'}, 404
 
-    cities_HTTP = request.get_json()
+    if request.is_json:
+        cities_HTTP = request.get_json()
 
     if cities_HTTP is None:
         return jsonify({'error': 'Not a JSON'}), 400
-
+    
     keys_ignored = ['id', 'state_id', 'created_at', 'updated_at']
     for key, value in cities_HTTP.items():
         if key not in keys_ignored:
